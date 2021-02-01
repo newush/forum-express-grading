@@ -3,13 +3,14 @@ const handlebars = require('express-handlebars')
 const app = express()
 const port = 3000
 
-app.engine('handlebars', handlebars()) //新增樣板引擎
+app.engine('handlebars', handlebars({ defaultLayout: 'main' })) //新增樣板引擎
 app.set('view engine', 'handlebars') //使用樣板引擎
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
+// 引入 routes 並將 app 傳進去，讓 routes 可以用 app 這個物件來指定路由
 require('./routes')(app)
 
 module.exports = app
