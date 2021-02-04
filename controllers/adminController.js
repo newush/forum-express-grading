@@ -21,7 +21,7 @@ const adminController = {
 
     const { file } = req // equal to const file = req.file
     if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.setClientID(process.env.IMGUR_CLIENT_ID);
       imgur.upload(file.path, (err, img) => {
         return Restaurant.create({
           name: req.body.name,
