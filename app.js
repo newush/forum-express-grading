@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
+const methodOverride = require('method-override')
 const app = express()
 const port = 3000
 
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user
   next()
 })
+app.use(methodOverride('_method'))
 // 引入 routes 並將 app 傳進去，讓 routes 可以用 app 這個物件來指定路由
 require('./routes')(app, passport)
 
