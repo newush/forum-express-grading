@@ -12,7 +12,7 @@ const methodOverride = require('method-override')
 const app = express()
 const port = process.env.PORT || 3000
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' })) //新增樣板引擎
+app.engine('handlebars', handlebars({ defaultLayout: 'main', helpers: require('./config/handlebars-helpers') })) //新增樣板引擎
 app.set('view engine', 'handlebars') //使用樣板引擎
 app.use(bodyParser.urlencoded({ extended: true }))
 app.listen(port, () => {
