@@ -12,7 +12,6 @@ const adminController = {
       nest: true,
       include: [Category]
     }).then(restaurants => {
-      console.log(restaurants)
       return res.render('admin/restaurants', { restaurants: restaurants })
     })
   },
@@ -56,9 +55,9 @@ const adminController = {
     }
   },
   getRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id, { raw: true }).then(restaurant => {
+    return Restaurant.findByPk(req.params.id, { include: [Category] }).then(restaurant => {
       return res.render('admin/restaurant', {
-        restaurant: restaurant
+        restaurant: restaurant.toJSON()
       })
     })
   },
