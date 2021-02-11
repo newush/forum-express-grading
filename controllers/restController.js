@@ -1,7 +1,19 @@
+const db = require('../models')
+const Restaurant = db.Restaurant
+const Category = db.Category
+
 const restController = {
-  // 負責「瀏覽餐廳頁面」，就是去 render 一個 restaurants 的樣板
   getRestaurants: (req, res) => {
-    return res.render('restaurants')
+    Restaurant.findAll({ include: Category }).then(restaurants => {
+      const data = restaurants.map(r => ({
+        ...r.dataValues, //spread operator
+        description: r.dataValues.description.substring(0, 50),
+        categoryName: r.Category.name
+      }))
+      return res.render('restaurants', {
+        restaurants: data
+      })
+    })
   }
 }
 module.exports = restController
