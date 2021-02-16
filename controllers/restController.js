@@ -86,6 +86,21 @@ const restController = {
         comments: comments
       })
     })
+  },
+  getRestaurantDashboard: (req, res) => {
+    Restaurant.findByPk(req.params.id, {
+      include:
+        [
+          { model: Comment, include: [Restaurant] },
+          { model: Category, include: [Restaurant] }]
+    })
+      .then(restaurant => {
+        console.log('restaurant', restaurant)
+        console.log('commentLength', restaurant.dataValues.Comments.length)
+        res.render('dashboard', {
+          restaurant: restaurant.toJSON()
+        })
+      })
   }
 }
 module.exports = restController

@@ -60,7 +60,6 @@ const userController = {
       .then(user => {
         res.render('user', {
           user: user.toJSON()
-          // comments: user.dataValues.Comments
         })
       })
   },
