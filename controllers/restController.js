@@ -56,9 +56,9 @@ const restController = {
     return Restaurant.findByPk(req.params.id, {
       include: [
         Category,
-        { model: Comment, include: [User] }
-      ]
-    }).then(restaurant => {
+        { model: Comment, include: [User] }],
+    }).then(async (restaurant) => {
+      await restaurant.increment('viewCounts', { by: 1 })
       return res.render('restaurant', {
         restaurant: restaurant.toJSON()
       })
@@ -95,8 +95,6 @@ const restController = {
           { model: Category, include: [Restaurant] }]
     })
       .then(restaurant => {
-        console.log('restaurant', restaurant)
-        console.log('commentLength', restaurant.dataValues.Comments.length)
         res.render('dashboard', {
           restaurant: restaurant.toJSON()
         })
