@@ -32,7 +32,8 @@ const restController = {
         {
           ...r.dataValues, //spread operator
           description: r.dataValues.description.substring(0, 50),
-          categoryName: r.Category.name
+          categoryName: r.Category.name,
+          isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(r.id)
         }
       ))
       Category.findAll({
