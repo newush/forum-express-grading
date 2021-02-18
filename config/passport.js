@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const db = require('../models')
 const User = db.User
 const Restaurant = db.Restaurant
+const Like = db.Like
 
 // setup passport strategy
 passport.use(new LocalStrategy(
@@ -30,10 +31,11 @@ passport.serializeUser((user, cb) => {
 })
 passport.deserializeUser((id, cb) => {
   User.findByPk(id, {
-    include: [{
-      model: Restaurant, as: 'FavoritedRestaurants'
+    include: [
+      { model: Restaurant, as: 'FavoritedRestaurants' },
       //因為要到 restController 用req.user 取值，所以在 passport 這裡加上 include FavoriteRestaurants
-    }]
+      { model: Restaurant, as: 'LikedRestaurants' }
+    ]
   }).then(user => {
     user = user.toJSON()
     return cb(null, user)
