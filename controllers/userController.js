@@ -8,6 +8,7 @@ const Like = db.Like
 const Followship = db.Followship
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const imgur = require('imgur')
+const comment = require('../models/comment')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -57,12 +58,24 @@ const userController = {
     User.findByPk(req.params.id,
       {
         include: [
-          { model: Comment, include: [Restaurant] }
+          { model: Comment, include: [Restaurant] },
+          { model: Favorite, include: [Restaurant] },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' }
         ]
       })
       .then(user => {
+        const comments = user.Comments.map(comment => comment.toJSON())
+        const distinctComments = []
+        comments.forEach((comment) => {
+          const ids = distinctComments.map(distinctComment => distinctComment.RestaurantId)
+          if (!ids.includes(comment.RestaurantId)) {
+            distinctComments.push(comment)
+          }
+        })
         res.render('user', {
-          user: user.toJSON()
+          user: user.toJSON(),
+          comments: distinctComments
         })
       })
   },
