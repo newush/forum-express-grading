@@ -82,9 +82,14 @@ const userController = {
   editUser: (req, res) => {
     User.findByPk(req.params.id)
       .then(user => {
-        res.render('user_edit', {
-          user: user.dataValues
-        })
+        if (user.id !== req.user.id) {
+          console.log('error')
+          res.redirect('/')
+        } else {
+          res.render('user_edit', {
+            user: user.dataValues
+          })
+        }
       })
   },
   putUser: (req, res) => {

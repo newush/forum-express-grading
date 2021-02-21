@@ -11,10 +11,12 @@
         <p><strong>{{user.Favorites.length}}</strong> 收藏的餐廳</p>
         <p><strong>{{user.Followings.length}}</strong> Followings (追蹤者）</p>
         <p><strong>{{user.Followers.length}}</strong> Followers (追隨者）</p>
+        {{#ifCond user.id me.id }}
         <a href="/users/{{user.id}}/edit"><button type="button" class="btn btn-primary">
             Edit
           </button>
         </a>
+        {{/ifCond}}
       </div>
 
     </div>
