@@ -16,6 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.engine('handlebars', handlebars({ defaultLayout: 'main', helpers: require('./config/handlebars-helpers') })) //新增樣板引擎
 app.set('view engine', 'handlebars') //使用樣板引擎
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
